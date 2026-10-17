@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Host · Kuiz Maani Kalimah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="host">
+
+<section id="s-setup" class="screen active">
+  <h1>Mulakan Game</h1>
+  <div class="card">
+    <label>Set soalan <select id="set"></select></label>
+    <label>Jenis soalan
+      <select id="mode">
+        <option value="campur">Campur</option>
+        <option value="k2m">Kalimah → Maksud</option>
+        <option value="m2k">Maksud → Kalimah</option>
+      </select>
+    </label>
+    <label>Bilangan soalan
+      <select id="count">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="all">Semua</option>
+      </select>
+    </label>
+    <label>Masa setiap soalan
+      <select id="time">
+        <option value="10">10 saat</option>
+        <option value="20">20 saat</option>
+        <option value="30">30 saat</option>
+      </select>
+    </label>
+    <button id="btn-open" class="btn primary block">Buka Lobby</button>
+    <p id="setup-msg" class="msg"></p>
+  </div>
+  <a href="index.html" class="link">← Kembali</a>
+</section>
+
+<section id="s-lobby" class="screen">
+  <div class="lobby-head">
+    <div class="join-info">
+      <div>Buka <span class="url" id="join-url"></span> di phone</div>
+      <div style="margin-top:6px">PIN Game</div>
+      <div id="pin" class="pin"></div>
+    </div>
+    <div id="qr" class="qr"></div>
+  </div>
+  <div class="lobby-bar">
+    <span><span id="pcount">0</span> pemain</span>
+    <button id="btn-start" class="btn light" disabled>Mula ▶</button>
+  </div>
+  <p class="hint">Klik pada pemain untuk keluarkan dia dari game.</p>
+  <div id="lobby-players" class="lobby-grid"></div>
+  <p id="lobby-empty" class="empty">Menunggu pemain masuk…</p>
+</section>
+
+<section id="s-question" class="screen">
+  <div class="q-top"><span id="q-num"></span><span id="q-label"></span></div>
+  <div id="q-prompt" class="prompt ar"></div>
+  <div class="q-mid">
+    <div id="q-timer" class="timer">20</div>
+    <button id="btn-q" class="btn light">Tamatkan masa</button>
+    <div class="answered"><b id="q-answered">0</b>jawapan</div>
+  </div>
+  <div id="q-answers" class="answers"></div>
+</section>
+
+<section id="s-board" class="screen">
+  <h1>Papan Markah</h1>
+  <div id="board" class="board"></div>
+  <div class="host-actions"><button id="btn-board" class="btn light">Soalan Seterusnya ▶</button></div>
+</section>
+
+<section id="s-final" class="screen">
+  <h1>🏆 Juara</h1>
+  <div id="podium" class="podium"></div>
+  <div id="final-list" class="board"></div>
+  <div class="host-actions">
+    <button id="btn-again" class="btn light">Main Lagi (pemain sama)</button>
+    <a href="index.html" class="btn">Tamat</a>
+  </div>
+</section>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/avatar.js"></script>
+<script src="js/host.js"></script>
+</body>
+</html>

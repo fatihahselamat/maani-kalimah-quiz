@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kuiz Maani Kalimah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<section class="screen active home">
+  <div class="logo">Kuiz Maani Kalimah<small class="ar">معاني الكلمات</small></div>
+  <a href="play.html" class="btn light">Join Game</a>
+  <a href="host.html" class="btn">Host Game</a>
+  <a href="editor.html" class="link">✏️ Urus set soalan</a>
+  <div id="history" class="history"></div>
+</section>
+<script src="js/common.js"></script>
+<script>
+  (function () {
+    const hist = MKQ.load('history', []);
+    if (!hist.length) return;
+    const box = document.getElementById('history');
+    const h = document.createElement('h3'); h.textContent = 'Game terkini (di peranti ini)';
+    box.append(h);
+    hist.slice(0, 5).forEach(g => {
+      const d = document.createElement('div'); d.className = 'history-item';
+      const t = document.createElement('b');
+      t.textContent = `${new Date(g.date).toLocaleString('ms-MY', { dateStyle: 'medium', timeStyle: 'short' })} · ${g.players} pemain`;
+      const s = document.createElement('div');
+      s.textContent = g.top.map((p, i) => `${['🥇', '🥈', '🥉'][i]} ${p.name} (${p.score})`).join('  ');
+      d.append(t, s);
+      box.append(d);
+    });
+  })();
+</script>
+</body>
+</html>

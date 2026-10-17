@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Join · Kuiz Maani Kalimah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="player">
+
+<section id="s-join" class="screen active">
+  <div class="logo">Kuiz Maani Kalimah</div>
+  <div class="card" style="margin-top:20px">
+    <label>PIN Game <input id="pin" class="big" inputmode="numeric" maxlength="6" placeholder="123456" autocomplete="off"></label>
+    <label>Nama kau <input id="name" maxlength="15" placeholder="cth: Aisyah" autocomplete="off"></label>
+    <button id="btn-next" class="btn primary block">Seterusnya ▶</button>
+    <p id="join-msg" class="msg"></p>
+  </div>
+  <a href="index.html" class="link">← Kembali</a>
+</section>
+
+<section id="s-avatar" class="screen">
+  <h1>Bina Karakter Kau</h1>
+  <div class="card">
+    <div id="preview" class="avatar-preview"></div>
+    <div id="options"></div>
+    <div class="row" style="margin-top:16px">
+      <button id="btn-random" class="btn ghost" style="flex:1">🎲 Rawak</button>
+      <button id="btn-join" class="btn primary" style="flex:2">Masuk Game</button>
+    </div>
+  </div>
+  <button id="btn-back" class="link" style="background:none;border:0;font:inherit;cursor:pointer">← Tukar PIN / nama</button>
+</section>
+
+<section id="s-wait" class="screen">
+  <div class="me"><div id="me-avatar"></div><div id="me-name" class="name"></div></div>
+  <p id="wait-status" class="status" style="margin-top:20px">Menyambung…</p>
+  <p id="wait-sub" class="sub"></p>
+</section>
+
+<section id="s-answer" class="screen">
+  <div class="player-top"><span id="a-num"></span><span id="a-timer"></span></div>
+  <div class="q-wrap">
+    <p id="a-label" class="sub" style="margin:0 0 8px"></p>
+    <div id="a-prompt" class="prompt ar"></div>
+    <div id="a-choices" class="answers" style="margin-top:14px"></div>
+  </div>
+</section>
+
+<section id="s-sent" class="screen">
+  <div class="big-icon">⏳</div>
+  <p id="sent-status" class="status">Jawapan dihantar!</p>
+  <p class="sub">Tunggu semua orang habis menjawab…</p>
+</section>
+
+<section id="s-result" class="screen result">
+  <div class="big-icon" id="r-icon"></div>
+  <p id="r-status" class="status"></p>
+  <div style="text-align:center"><span id="r-pts" class="pts"></span></div>
+  <p id="r-streak" class="sub"></p>
+  <p id="r-correct" class="sub"></p>
+  <p id="r-rank" class="sub" style="font-weight:900;font-size:22px"></p>
+</section>
+
+<section id="s-end" class="screen">
+  <div class="big-icon" id="e-icon">🏆</div>
+  <p id="e-status" class="status"></p>
+  <p id="e-score" class="sub"></p>
+  <p class="sub">Tengok podium di skrin!</p>
+  <a href="play.html" class="btn light" style="margin-top:20px">Main game lain</a>
+</section>
+
+<section id="s-error" class="screen">
+  <div class="big-icon">⚠️</div>
+  <p id="err-msg" class="status"></p>
+  <button id="btn-retry" class="btn light" style="margin-top:20px">Sambung semula</button>
+  <a href="play.html" class="link">Masuk game lain</a>
+</section>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/avatar.js"></script>
+<script src="js/player.js"></script>
+</body>
+</html>

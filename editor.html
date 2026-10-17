@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Editor · Kuiz Maani Kalimah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<section id="s-list" class="screen active">
+  <h1>Set Soalan</h1>
+  <div class="card wide">
+    <div id="sets"></div>
+    <button id="btn-new" class="btn primary" style="margin-top:16px">+ Set baharu</button>
+  </div>
+  <p class="hint">Set soalan disimpan dalam browser ini sahaja (localStorage). Buat set di peranti yang akan jadi host.</p>
+  <a href="index.html" class="link">← Kembali</a>
+</section>
+
+<section id="s-edit" class="screen">
+  <h1 id="edit-title">Set Baharu</h1>
+  <div class="card wide">
+    <label>Nama set <input id="set-name" maxlength="60" placeholder="cth: Maani Kalimah Surah Al-Mulk"></label>
+    <label>Kalimah dan maksud, satu baris satu entri, format <b>kalimah : maksud</b>
+      <textarea id="set-text" class="ar" placeholder="كورت : ذهب بضوئها"></textarea>
+    </label>
+    <p id="edit-count" class="hint" style="color:var(--muted);text-align:left;margin:0"></p>
+    <p id="edit-msg" class="msg"></p>
+    <div class="row" style="margin-top:12px">
+      <button id="btn-save" class="btn primary">Simpan</button>
+      <button id="btn-cancel" class="btn ghost">Batal</button>
+    </div>
+  </div>
+</section>
+
+<script src="js/common.js"></script>
+<script src="js/editor.js"></script>
+</body>
+</html>
