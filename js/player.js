@@ -156,7 +156,8 @@
     $('a-num').textContent = `Soalan ${m.q + 1} / ${m.n}`;
     $('a-label').textContent = m.label;
     $('a-prompt').textContent = m.prompt;
-    $('a-prompt').classList.toggle('long', String(m.prompt).length > 20);
+    MKQ.sizeText($('a-prompt'), m.prompt, 20, 60);
+    $('a-surah').textContent = m.surah || '';
     const box = $('a-choices');
     box.textContent = '';
     (m.choices || []).forEach((c, i) => {
@@ -164,6 +165,7 @@
       b.className = 'ans a' + i;
       const sh = document.createElement('span'); sh.className = 'shape'; sh.textContent = SHAPES[i];
       const tx = document.createElement('span'); tx.className = 'txt ar'; tx.textContent = c;
+      MKQ.sizeText(b, c, 40, 90);
       b.append(sh, tx);
       b.onclick = () => answer(i);
       box.append(b);

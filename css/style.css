@@ -108,6 +108,11 @@ input.big { font-size: 26px; font-weight: 900; text-align: center; letter-spacin
   font-size: clamp(34px, 7vw, 76px); text-align: center; width: 100%; max-width: 1100px; font-weight: 700;
 }
 .prompt.long { font-size: clamp(24px, 4.2vw, 48px); }
+.prompt.xlong { font-size: clamp(18px, 2.6vw, 32px); }
+.surah { font-size: 22px; font-weight: 700; opacity: .9; margin-bottom: 6px; text-align: center; }
+.surah:empty { display: none; }
+.ans.long .txt { font-size: clamp(16px, 2.2vw, 26px); }
+.ans.xlong .txt { font-size: clamp(14px, 1.6vw, 20px); line-height: 1.5; }
 .q-mid { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1100px; margin: 18px 0; gap: 12px; }
 .timer {
   width: 96px; height: 96px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center;
@@ -183,6 +188,10 @@ button.ans:active { transform: translateY(3px); }
 .player .answers { grid-template-columns: 1fr; gap: 10px; }
 .player .ans { min-height: 64px; }
 .player .ans .txt { font-size: clamp(18px, 5.5vw, 26px); }
+.player .prompt.xlong { font-size: clamp(16px, 4.6vw, 22px); }
+.player .ans.long .txt { font-size: 17px; }
+.player .ans.xlong .txt { font-size: 15px; }
+.player .surah { font-size: 18px; }
 .player-top { display: flex; justify-content: space-between; width: 100%; max-width: 600px; font-weight: 800; margin-bottom: 10px; }
 .player .q-wrap { width: 100%; max-width: 600px; }
 .result.ok { background: var(--ok); }

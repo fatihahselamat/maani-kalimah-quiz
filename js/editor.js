@@ -12,7 +12,7 @@
       const info = document.createElement('div'); info.className = 'info';
       const b = document.createElement('b'); b.textContent = s.name;
       if (s.builtin) { const t = document.createElement('span'); t.className = 'tag'; t.textContent = 'ASAL'; b.append(t); }
-      const n = document.createElement('span'); n.textContent = `${s.items.length} kalimah`;
+      const n = document.createElement('span'); n.textContent = `${s.items.length} ${s.unit || 'kalimah'}`;
       info.append(b, n);
       row.append(info);
       if (s.builtin) {

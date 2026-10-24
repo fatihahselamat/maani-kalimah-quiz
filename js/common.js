@@ -32,17 +32,25 @@ const MKQ = (() => {
     return a;
   }
 
-  async function builtinSet() {
-    const res = await fetch('data/maani-kalimah.json');
-    const data = await res.json();
-    return { id: 'builtin', name: data.name, items: data.items, builtin: true };
+  // Set tetap: tambah fail JSON baharu dalam folder data/ dan senaraikan di sini
+  const BUILTIN_FILES = ['data/maani-kalimah.json', 'data/syarah-ayat.json'];
+
+  async function builtinSets() {
+    const sets = await Promise.all(BUILTIN_FILES.map(async file => {
+      try {
+        const data = await (await fetch(file)).json();
+        return { id: data.id || file, name: data.name, unit: data.unit, labels: data.labels, items: data.items, builtin: true };
+      } catch (e) {
+        console.warn('Gagal muat', file, e);
+        return null;
+      }
+    }));
+    return sets.filter(Boolean);
   }
 
-  // Set asal (fail JSON) + set yang dibuat dalam editor (localStorage)
+  // Set tetap (fail JSON) + set yang dibuat dalam editor (localStorage)
   async function allSets() {
-    const sets = [];
-    try { sets.push(await builtinSet()); } catch (e) { console.warn('Gagal muat set asal', e); }
-    return sets.concat(load('sets', []));
+    return (await builtinSets()).concat(load('sets', []));
   }
 
   // Format: "kalimah : maksud" satu baris satu entri
@@ -69,7 +77,9 @@ const MKQ = (() => {
   };
 
   // mode: 'k2m' | 'm2k' | 'campur'; count: nombor atau 'all'
-  function buildQuestions(items, { mode, count }) {
+  // labels: label soalan khas untuk set (pilihan), contohnya untuk syarah ayat
+  function buildQuestions(items, { mode, count, labels }) {
+    labels = Object.assign({}, LABELS, labels);
     const n = count === 'all' ? items.length : Math.min(Number(count), items.length);
     return shuffle(items).slice(0, n).map(item => {
       const m = mode === 'campur' ? (Math.random() < 0.5 ? 'k2m' : 'm2k') : mode;
@@ -77,7 +87,11 @@ const MKQ = (() => {
       const ans = m === 'k2m' ? 'maani' : 'kalimah';
       const wrong = shuffle([...new Set(items.map(i => i[ans]).filter(v => v !== item[ans]))]).slice(0, 3);
       const choices = shuffle([item[ans], ...wrong]);
-      return { mode: m, prompt: item[ask], choices, correct: choices.indexOf(item[ans]) };
+      return {
+        mode: m, label: labels[m], prompt: item[ask], choices, correct: choices.indexOf(item[ans]),
+        // Nama surah hanya ditunjuk bila soalan ialah ayat (kalau tidak, ia jadi petunjuk jawapan)
+        surah: m === 'k2m' ? (item.surah || '') : ''
+      };
     });
   }
 
@@ -88,10 +102,17 @@ const MKQ = (() => {
     return base + bonus;
   }
 
+  // Kecilkan tulisan untuk teks panjang (syarah, ayat panjang)
+  function sizeText(el, text, longAt, xlongAt) {
+    const n = String(text).length;
+    el.classList.toggle('long', n > longAt && n <= xlongAt);
+    el.classList.toggle('xlong', n > xlongAt);
+  }
+
   function show(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
     window.scrollTo(0, 0);
   }
 
-  return { PEER_PREFIX, load, save, sessionLoad, sessionSave, uid, shuffle, allSets, parseText, toText, LABELS, buildQuestions, points, show };
+  return { PEER_PREFIX, load, save, sessionLoad, sessionSave, uid, shuffle, allSets, parseText, toText, LABELS, buildQuestions, points, sizeText, show };
 })();

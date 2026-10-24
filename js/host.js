@@ -13,7 +13,7 @@
 
   // ---------- Setup ----------
   sets = await MKQ.allSets();
-  sets.forEach((s, i) => $('set').append(new Option(`${s.name} (${s.items.length} kalimah)`, i)));
+  sets.forEach((s, i) => $('set').append(new Option(`${s.name} (${s.items.length} ${s.unit || 'kalimah'})`, i)));
   const saved = MKQ.load('hostcfg', null);
   if (saved) {
     const idx = sets.findIndex(s => s.id === saved.setId);
@@ -145,7 +145,7 @@
   }
 
   $('btn-start').onclick = () => {
-    questions = MKQ.buildQuestions(cfg.set.items, cfg);
+    questions = MKQ.buildQuestions(cfg.set.items, { mode: cfg.mode, count: cfg.count, labels: cfg.set.labels });
     players.forEach(p => { p.score = 0; p.streak = 0; p.last = null; });
     qi = -1;
     nextQuestion();
@@ -157,7 +157,7 @@
   function sendQuestion(p) {
     const q = questions[qi];
     send(p, {
-      t: 'question', q: qi, n: questions.length, mode: q.mode, label: MKQ.LABELS[q.mode],
+      t: 'question', q: qi, n: questions.length, mode: q.mode, label: q.label, surah: q.surah,
       prompt: q.prompt, choices: q.choices, left: Math.max(0, cfg.time * 1000 - (Date.now() - qStart))
     });
   }
@@ -171,9 +171,10 @@
     qStart = Date.now();
 
     $('q-num').textContent = `Soalan ${qi + 1} / ${questions.length}`;
-    $('q-label').textContent = MKQ.LABELS[q.mode];
+    $('q-label').textContent = q.label;
+    $('q-surah').textContent = q.surah;
     $('q-prompt').textContent = q.prompt;
-    $('q-prompt').classList.toggle('long', q.prompt.length > 22);
+    MKQ.sizeText($('q-prompt'), q.prompt, 22, 60);
     $('q-answered').textContent = '0';
     $('btn-q').textContent = 'Tamatkan masa';
     const box = $('q-answers');
@@ -184,6 +185,7 @@
       d.className = 'ans a' + i;
       const sh = document.createElement('span'); sh.className = 'shape'; sh.textContent = SHAPES[i];
       const tx = document.createElement('span'); tx.className = 'txt ar'; tx.textContent = c;
+      MKQ.sizeText(d, c, 40, 90);
       d.append(sh, tx);
       box.append(d);
     });

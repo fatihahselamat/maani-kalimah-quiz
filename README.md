@@ -1,6 +1,6 @@
 # Kuiz Maani Kalimah
 
-Game kuiz live ala Kahoot untuk menghafal maani kalimah (Juz 'Amma). Ramai pemain boleh main serentak menggunakan phone masing-masing. Tiada database dan tiada server sendiri.
+Game kuiz live ala Kahoot untuk menghafal maani kalimah dan syarah ayat (Juz 'Amma). Ramai pemain boleh main serentak menggunakan phone masing-masing. Tiada database dan tiada server sendiri.
 
 ## Cara main
 
@@ -33,7 +33,8 @@ js/common.js    storan, jana soalan, kiraan mata
 js/avatar.js    avatar SVG
 js/host.js      logik game + PeerJS (host)
 js/player.js    logik pemain + PeerJS
-data/maani-kalimah.json   36 kalimah asal
+data/maani-kalimah.json   set tetap: 36 maani kalimah
+data/syarah-ayat.json     set tetap: 29 syarah ayat (dengan nama surah)
 ```
 
 ## Jalankan di komputer sendiri
@@ -51,3 +52,13 @@ Kemudian buka http://localhost:8000. Untuk uji dengan phone sebenar, deploy ke G
 1. Push repo ini ke GitHub.
 2. **Settings → Pages → Build and deployment → Deploy from a branch → `main` / `(root)`**.
 3. Laman akan live di `https://USERNAME.github.io/NAMA-REPO/`.
+
+## Tambah set soalan tetap
+
+Set tetap muncul di semua peranti (berbeza dengan set dari editor, yang hanya disimpan dalam satu browser).
+
+1. Buat fail baharu dalam `data/`, contohnya `data/surah-al-mulk.json`, ikut format `data/syarah-ayat.json`:
+   - `kalimah`: soalan (kalimah atau ayat)
+   - `maani`: jawapan (maksud atau syarah)
+   - `surah`, `labels`, `unit`: pilihan
+2. Tambah nama fail itu dalam `BUILTIN_FILES` dalam `js/common.js`.
