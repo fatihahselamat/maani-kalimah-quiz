@@ -35,6 +35,8 @@ js/host.js      logik game + PeerJS (host)
 js/player.js    logik pemain + PeerJS
 data/maani-kalimah.json   set tetap: 36 maani kalimah
 data/syarah-ayat.json     set tetap: 29 syarah ayat (dengan nama surah)
+                          + set "Campur Semua" dijana automatik dari semua set tetap
+                            (jawapan salah sentiasa dari set yang sama dengan soalan)
 ```
 
 ## Jalankan di komputer sendiri
