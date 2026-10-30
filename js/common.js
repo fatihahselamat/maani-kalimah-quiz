@@ -48,9 +48,25 @@ const MKQ = (() => {
     return sets.filter(Boolean);
   }
 
+  // Set gabungan semua set tetap. Setiap item ingat set asalnya (group) dan
+  // labelnya, supaya jawapan salah diambil dari jenis yang sama sahaja
+  // (soalan maani tak dapat pilihan syarah, dan sebaliknya).
+  function combinedSet(sets) {
+    if (sets.length < 2) return null;
+    return {
+      id: 'campur-semua',
+      name: 'Campur Semua: ' + sets.map(s => s.name.replace(/ Juz 'Amma$/, '')).join(' + '),
+      unit: 'soalan',
+      builtin: true,
+      items: sets.flatMap(s => s.items.map(i => Object.assign({}, i, { group: s.id, labels: s.labels })))
+    };
+  }
+
   // Set tetap (fail JSON) + set yang dibuat dalam editor (localStorage)
   async function allSets() {
-    return (await builtinSets()).concat(load('sets', []));
+    const builtin = await builtinSets();
+    const combined = combinedSet(builtin);
+    return builtin.concat(combined ? [combined] : [], load('sets', []));
   }
 
   // Format: "kalimah : maksud" satu baris satu entri
@@ -85,10 +101,16 @@ const MKQ = (() => {
       const m = mode === 'campur' ? (Math.random() < 0.5 ? 'k2m' : 'm2k') : mode;
       const ask = m === 'k2m' ? 'kalimah' : 'maani';
       const ans = m === 'k2m' ? 'maani' : 'kalimah';
-      const wrong = shuffle([...new Set(items.map(i => i[ans]).filter(v => v !== item[ans]))]).slice(0, 3);
+      // Buang item yang soalan atau jawapannya sama, supaya tiada dua pilihan yang betul
+      // (contohnya beberapa kalimah berkongsi maksud yang sama)
+      // Dalam set gabungan, jawapan salah hanya dari set asal yang sama
+      const pool = item.group ? items.filter(i => i.group === item.group) : items;
+      const wrong = shuffle([...new Set(pool
+        .filter(i => i[ask] !== item[ask] && i[ans] !== item[ans])
+        .map(i => i[ans]))]).slice(0, 3);
       const choices = shuffle([item[ans], ...wrong]);
       return {
-        mode: m, label: labels[m], prompt: item[ask], choices, correct: choices.indexOf(item[ans]),
+        mode: m, label: (item.labels && item.labels[m]) || labels[m], prompt: item[ask], choices, correct: choices.indexOf(item[ans]),
         // Nama surah hanya ditunjuk bila soalan ialah ayat (kalau tidak, ia jadi petunjuk jawapan)
         surah: m === 'k2m' ? (item.surah || '') : ''
       };
